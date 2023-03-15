@@ -33,6 +33,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
             "born" to 1815
         )
 
+        //
+
 
         db.collection("users")
             .add(user)
