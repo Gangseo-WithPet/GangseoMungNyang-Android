@@ -1,23 +1,35 @@
 package com.jiwondev.withpet.ui.fragment
 
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.GenericTypeIndicator
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import android.widget.Toast
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.jiwondev.withpet.R
+import com.jiwondev.withpet.data.datasourece.MapDatasource
+import com.jiwondev.withpet.data.repository.MapRepository
 import com.jiwondev.withpet.databinding.FragmentMapBinding
-import com.jiwondev.withpet.model.MapDtoItem
+import com.jiwondev.withpet.ui.viewmodel.MapViewModel
+import com.jiwondev.withpet.ui.viewmodel.MapViewModelFactory
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.MapFragment
+import com.naver.maps.map.overlay.Overlay.OnClickListener
+import com.naver.maps.map.util.MarkerIcons
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
+class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate), OnMapReadyCallback {
+    lateinit var mapViewModel: MapViewModel
+    lateinit var mapFragment: MapFragment
 
-const val TAG = "MapFragment"
-
-class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -29,26 +41,47 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val database = Firebase.database
-        val myRef = database.getReference("map2")
+        init()
+    }
 
-        myRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(object : GenericTypeIndicator<ArrayList<MapDtoItem>>() {})
-
-                // GenericTypeIndicator 클래스는 제네릭 타입에 대한 정보를 보유하는 클래스로,
-                // Firebase에서 제공하는 Realtime Database와 같은 NoSQL 데이터베이스에서
-                // 제네릭 타입을 사용하여 데이터를 읽거나 쓸 때 유용하게 사용된다.
-
-                value?.forEach {
-                    Log.d("result : ", it.toString())
+    override fun onMapReady(naverMap: NaverMap) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mapViewModel.mapFlow.collectLatest { mapResponse ->
+                        mapResponse?.forEach { mapInfo ->
+                            Marker().apply {
+                                position = LatLng(mapInfo.latitude, mapInfo.longitude)
+                                map = naverMap
+                                icon = MarkerIcons.BLACK
+                                iconTintColor = Color.parseColor("#FFBA00")
+                                width = 80
+                                height = 130
+                                captionText = mapInfo.storeName
+                                captionColor = Color.parseColor("#FFBA00")
+                                onClickListener = OnClickListener {
+                                    Toast.makeText(requireContext(), "gdgd", Toast.LENGTH_SHORT).show()
+                                    false
+                                }
+                            }
+                        }
+                    }
                 }
             }
+        }
+    }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(TAG, "Failed to read value.", error.toException())
-            }
-        })
+    private fun init() {
+        // TODO : 현재위치  파악.
+        mapViewModel = ViewModelProvider(
+            this,
+            MapViewModelFactory(MapRepository(MapDatasource()))
+        )[MapViewModel::class.java]
 
+        val fm = childFragmentManager
+        mapFragment = fm.findFragmentById(R.id.naverMap) as MapFragment?
+            ?: MapFragment.newInstance().also {
+                fm.beginTransaction().add(R.id.naverMap, it).commit() }
+        mapFragment.getMapAsync(this)
     }
 }

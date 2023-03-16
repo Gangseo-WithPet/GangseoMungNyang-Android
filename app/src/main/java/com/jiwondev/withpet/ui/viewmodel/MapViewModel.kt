@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.jiwondev.withpet.data.repository.MapRepository
 
-class MapViewModel(private val db: MapRepository) : ViewModel() {
-
+class MapViewModel(private val mapRepository: MapRepository) : ViewModel() {
+    val mapFlow = mapRepository.mapResult
 }
 
 class MapViewModelFactory(private val param: MapRepository) : ViewModelProvider.Factory {
