@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.jiwondev.withpet.R
 import com.jiwondev.withpet.data.datasourece.MapDatasource
 import com.jiwondev.withpet.data.repository.MapRepository
+import com.jiwondev.withpet.databinding.BottomSheetDialogBinding
 import com.jiwondev.withpet.databinding.FragmentMapBinding
 import com.jiwondev.withpet.ui.viewmodel.MapViewModel
 import com.jiwondev.withpet.ui.viewmodel.MapViewModelFactory
@@ -29,6 +33,7 @@ import kotlinx.coroutines.launch
 class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate), OnMapReadyCallback {
     lateinit var mapViewModel: MapViewModel
     lateinit var mapFragment: MapFragment
+    private lateinit var behaviorWeather: BottomSheetBehavior<ConstraintLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +65,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
                                 captionText = mapInfo.storeName
                                 captionColor = Color.parseColor("#FFBA00")
                                 onClickListener = OnClickListener {
+                                    // TODO 바텀시트 매핑
+                                    showMarkerInfoBottomSheetDialog()
                                     Toast.makeText(requireContext(), "gdgd", Toast.LENGTH_SHORT).show()
                                     false
                                 }
@@ -83,5 +90,20 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
             ?: MapFragment.newInstance().also {
                 fm.beginTransaction().add(R.id.naverMap, it).commit() }
         mapFragment.getMapAsync(this)
+
+        behaviorWeather = BottomSheetBehavior.from(
+            binding.markerInfoBottomSheet.markerBottomSheetConstraint
+        ).apply {
+            state = BottomSheetBehavior.STATE_HIDDEN
+        }
+    }
+
+
+    private fun showMarkerInfoBottomSheetDialog() {
+        behaviorWeather.state = BottomSheetBehavior.STATE_COLLAPSED
+//        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+//        val bottomSheetDialogView = BottomSheetDialogBinding.inflate(layoutInflater)
+//        bottomSheetDialog.setContentView(bottomSheetDialogView.root)
+//        bottomSheetDialog.show()
     }
 }
