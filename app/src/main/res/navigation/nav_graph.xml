@@ -20,4 +20,9 @@
         android:name="com.jiwondev.withpet.ui.fragment.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/noticeFragment"
+        android:name="com.jiwondev.withpet.ui.fragment.NoticeFragment"
+        android:label="fragment_notice"
+        tools:layout="@layout/fragment_notice" />
 </navigation>

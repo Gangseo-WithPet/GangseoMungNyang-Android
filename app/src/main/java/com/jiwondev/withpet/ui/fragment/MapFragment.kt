@@ -19,6 +19,7 @@ import com.jiwondev.withpet.data.datasourece.MapDatasource
 import com.jiwondev.withpet.data.repository.MapRepository
 import com.jiwondev.withpet.databinding.BottomSheetDialogBinding
 import com.jiwondev.withpet.databinding.FragmentMapBinding
+import com.jiwondev.withpet.model.MapDtoItem
 import com.jiwondev.withpet.ui.activity.StoreDetailActivity
 import com.jiwondev.withpet.ui.viewmodel.MapViewModel
 import com.jiwondev.withpet.ui.viewmodel.MapViewModelFactory
@@ -67,11 +68,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
                                 captionText = mapInfo.storeName
                                 captionColor = Color.parseColor("#FFBA00")
                                 onClickListener = OnClickListener {
-                                    showMarkerInfoBottomSheetDialog(
-                                        storeName = "${mapInfo.storeName} - ${mapInfo.typeDetail}",
-                                        loadAddress = mapInfo.loadAddress,
-                                        dayOff = mapInfo.dayOff
-                                    )
+                                    showMarkerInfoBottomSheetDialog(mapInfo)
                                     false
                                 }
                             }
@@ -103,14 +100,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
     }
 
 
-    private fun showMarkerInfoBottomSheetDialog(storeName : String, loadAddress: String, dayOff: String) {
+    private fun showMarkerInfoBottomSheetDialog(mapInfo: MapDtoItem) {
         binding.markerInfoBottomSheet.apply {
-            storeNameTextView.text = storeName
-            loadAddressTextView.text = loadAddress
-            dayOffTextView.text = dayOff
+            storeNameTextView.text = "${mapInfo.storeName} - ${mapInfo.typeDetail}"
+            loadAddressTextView.text = mapInfo.loadAddress
+            dayOffTextView.text = mapInfo.dayOff
             bottomSheetCloseImageView.setOnClickListener { behaviorWeather.state = BottomSheetBehavior.STATE_HIDDEN }
             markerBottomSheetConstraint.setOnClickListener {
                 val intent = Intent(requireContext(), StoreDetailActivity::class.java)
+                intent.putExtra("data", mapInfo)
                 requireActivity().startActivity(intent)
             }
         }

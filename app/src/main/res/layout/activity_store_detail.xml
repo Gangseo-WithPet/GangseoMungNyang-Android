@@ -7,7 +7,7 @@
     tools:context=".ui.activity.StoreDetailActivity">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/storeCloseImageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="15dp"
@@ -18,17 +18,17 @@
         app:srcCompat="@drawable/arrow_left_icon" />
 
     <TextView
+        android:id="@+id/storeNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="storeName"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintBottom_toBottomOf="@+id/storeCloseImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView3">
-    </TextView>
+        app:layout_constraintTop_toTopOf="@+id/storeCloseImageView"></TextView>
 
     <ScrollView
         android:layout_width="0dp"
@@ -37,7 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3">
+        app:layout_constraintTop_toBottomOf="@+id/storeCloseImageView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -96,7 +96,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/imageView4"></TextView>
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/storeTypeTextView"
                     style="@style/ContentStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -115,16 +115,16 @@
                     android:layout_marginTop="10dp"
                     android:text="도로명 주소 : "
                     app:layout_constraintStart_toStartOf="@+id/textView4"
-                    app:layout_constraintTop_toBottomOf="@+id/textView5"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/storeTypeTextView"></TextView>
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/storeLoadAddressTextView"
                     style="@style/ContentStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="loadAddress"
-                    app:layout_constraintEnd_toEndOf="@+id/textView5"
+                    app:layout_constraintEnd_toEndOf="@+id/storeTypeTextView"
                     app:layout_constraintStart_toEndOf="@+id/textView6"
                     app:layout_constraintTop_toTopOf="@+id/textView6"></TextView>
 
@@ -136,16 +136,16 @@
                     android:layout_marginTop="10dp"
                     android:text="지번 주소 : "
                     app:layout_constraintStart_toStartOf="@+id/textView6"
-                    app:layout_constraintTop_toBottomOf="@+id/textView7"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/storeLoadAddressTextView"></TextView>
 
                 <TextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/storeAddressTextView"
                     style="@style/ContentStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="address"
-                    app:layout_constraintEnd_toEndOf="@+id/textView5"
+                    app:layout_constraintEnd_toEndOf="@+id/storeTypeTextView"
                     app:layout_constraintStart_toEndOf="@+id/textView8"
                     app:layout_constraintTop_toTopOf="@+id/textView8"></TextView>
 
@@ -157,17 +157,39 @@
                     android:layout_marginTop="10dp"
                     android:text="전화번호 : "
                     app:layout_constraintStart_toStartOf="@+id/textView8"
-                    app:layout_constraintTop_toBottomOf="@+id/textView9"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/storeAddressTextView">
+                </TextView>
 
                 <TextView
+                    android:id="@+id/textView25"
+                    style="@style/TitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="주차여부 : "
+                    app:layout_constraintStart_toStartOf="@+id/textView10"
+                    app:layout_constraintTop_toBottomOf="@+id/storeNumberTextView"></TextView>
+
+                <TextView
+                    android:id="@+id/storeParkingTextView"
+                    style="@style/ContentStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="parking"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView25"
+                    app:layout_constraintTop_toTopOf="@+id/textView25"></TextView>
+
+                <TextView
+                    android:id="@+id/storeNumberTextView"
                     style="@style/ContentStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_marginBottom="20dp"
                     android:text="number"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/textView5"
+                    app:layout_constraintEnd_toEndOf="@+id/storeTypeTextView"
                     app:layout_constraintStart_toEndOf="@+id/textView10"
                     app:layout_constraintTop_toTopOf="@+id/textView10"></TextView>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -190,7 +212,8 @@
                     android:layout_marginTop="15dp"
                     android:src="@drawable/deadline_icon"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"></ImageView>
+                    app:layout_constraintTop_toTopOf="parent">
+                </ImageView>
 
                 <TextView
                     style="@style/SectionStyle"
@@ -212,7 +235,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/imageView5"></TextView>
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/storeTimeTextView"
                     style="@style/ContentStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -226,12 +249,12 @@
                     style="@style/TitleStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:text="휴무일 : "
                     app:layout_constraintStart_toStartOf="@+id/textView11"
-                    app:layout_constraintTop_toBottomOf="@+id/textView12"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/storeTimeTextView"></TextView>
 
                 <TextView
+                    android:id="@+id/storeDayoffTextView"
                     style="@style/ContentStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -351,6 +374,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView20"></TextView>
 
                 <TextView
+                    android:id="@+id/storeInsideTextView"
                     style="@style/ContentStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -362,6 +386,7 @@
                     app:layout_constraintTop_toTopOf="@+id/textView24"></TextView>
 
                 <TextView
+                    android:id="@+id/storeOutsideTextView"
                     style="@style/ContentStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -371,6 +396,7 @@
                     app:layout_constraintTop_toTopOf="@+id/textView17"></TextView>
 
                 <TextView
+                    android:id="@+id/storeLimitedTextView"
                     style="@style/ContentStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -380,7 +406,7 @@
                     app:layout_constraintTop_toTopOf="@+id/textView20"></TextView>
 
                 <TextView
-                    android:id="@+id/textView23"
+                    android:id="@+id/storeChargeTextView"
                     style="@style/ContentStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -390,7 +416,7 @@
                     app:layout_constraintTop_toTopOf="@+id/textView18"></TextView>
 
                 <TextView
-                    android:id="@+id/textView22"
+                    android:id="@+id/storePedestriansTextView"
                     style="@style/ContentStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -400,6 +426,7 @@
                     app:layout_constraintTop_toTopOf="@+id/textView16"></TextView>
 
                 <TextView
+                    android:id="@+id/storeAdmissionTextView"
                     style="@style/ContentStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -409,7 +436,7 @@
                     app:layout_constraintTop_toTopOf="@+id/textView14"></TextView>
 
                 <TextView
-                    android:id="@+id/textView21"
+                    android:id="@+id/storeAccompanyTextView"
                     style="@style/ContentStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

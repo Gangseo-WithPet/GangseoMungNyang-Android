@@ -1,5 +1,7 @@
 package com.jiwondev.withpet.model
 
+import java.io.Serializable
+
 
 data class MapDtoItem(
     val accompany: String = "",
@@ -21,4 +23,4 @@ data class MapDtoItem(
     val time: String = "",
     val type: String = "",
     val typeDetail: String = ""
-)
+) : Serializable
