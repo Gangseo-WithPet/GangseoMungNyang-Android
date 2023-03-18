@@ -1,5 +1,6 @@
 package com.jiwondev.withpet.ui.fragment
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.jiwondev.withpet.data.datasourece.MapDatasource
 import com.jiwondev.withpet.data.repository.MapRepository
 import com.jiwondev.withpet.databinding.BottomSheetDialogBinding
 import com.jiwondev.withpet.databinding.FragmentMapBinding
+import com.jiwondev.withpet.ui.activity.StoreDetailActivity
 import com.jiwondev.withpet.ui.viewmodel.MapViewModel
 import com.jiwondev.withpet.ui.viewmodel.MapViewModelFactory
 import com.naver.maps.geometry.LatLng
@@ -65,9 +67,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
                                 captionText = mapInfo.storeName
                                 captionColor = Color.parseColor("#FFBA00")
                                 onClickListener = OnClickListener {
-                                    // TODO 바텀시트 매핑
-                                    showMarkerInfoBottomSheetDialog()
-                                    Toast.makeText(requireContext(), "gdgd", Toast.LENGTH_SHORT).show()
+                                    showMarkerInfoBottomSheetDialog(
+                                        storeName = "${mapInfo.storeName} - ${mapInfo.typeDetail}",
+                                        loadAddress = mapInfo.loadAddress,
+                                        dayOff = mapInfo.dayOff
+                                    )
                                     false
                                 }
                             }
@@ -99,11 +103,17 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
     }
 
 
-    private fun showMarkerInfoBottomSheetDialog() {
+    private fun showMarkerInfoBottomSheetDialog(storeName : String, loadAddress: String, dayOff: String) {
+        binding.markerInfoBottomSheet.apply {
+            storeNameTextView.text = storeName
+            loadAddressTextView.text = loadAddress
+            dayOffTextView.text = dayOff
+            bottomSheetCloseImageView.setOnClickListener { behaviorWeather.state = BottomSheetBehavior.STATE_HIDDEN }
+            markerBottomSheetConstraint.setOnClickListener {
+                val intent = Intent(requireContext(), StoreDetailActivity::class.java)
+                requireActivity().startActivity(intent)
+            }
+        }
         behaviorWeather.state = BottomSheetBehavior.STATE_COLLAPSED
-//        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-//        val bottomSheetDialogView = BottomSheetDialogBinding.inflate(layoutInflater)
-//        bottomSheetDialog.setContentView(bottomSheetDialogView.root)
-//        bottomSheetDialog.show()
     }
 }

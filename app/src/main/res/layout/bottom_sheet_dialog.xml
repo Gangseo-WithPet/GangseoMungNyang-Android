@@ -8,6 +8,7 @@
     app:layout_behavior="@string/bottom_sheet_behavior"
     app:behavior_draggable="true"
     app:behavior_hideable="true"
+    app:behavior_skipCollapsed="false"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,17 +22,47 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <ImageView
+            android:id="@+id/bottomSheetCloseImageView"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="20dp"
+            android:padding="5dp"
+            android:src="@drawable/close"
+            app:layout_constraintBottom_toBottomOf="@+id/textView3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView3"></ImageView>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_radius_100dp"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp"
+            android:text="자세히 보기"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
+            app:layout_constraintTop_toTopOf="parent">
+        </TextView>
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/textView3">
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -49,19 +80,12 @@
                 android:layout_marginStart="10dp"
                 android:includeFontPadding="false"
                 android:text="storeName  - "
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toTopOf="@+id/imageView2"></TextView>
 
-            <TextView
-                android:id="@+id/typeDetailTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:text="typeDetail"
-                app:layout_constraintBottom_toBottomOf="@+id/storeNameTextView"
-                app:layout_constraintStart_toEndOf="@+id/storeNameTextView"
-                app:layout_constraintTop_toTopOf="@+id/storeNameTextView"></TextView>
 
             <TextView
                 android:id="@+id/textView"
@@ -69,6 +93,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="주소 : "
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/storeNameTextView"></TextView>
 
@@ -78,6 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
                 android:text="도로명주소@@@@@@@@@"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@+id/textView"
                 app:layout_constraintTop_toTopOf="@+id/textView"></TextView>
 
@@ -87,6 +114,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="휴무일 : "
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/loadAddressTextView"></TextView>
 
@@ -95,6 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="연중무휴"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/textView2"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
                 app:layout_constraintTop_toTopOf="@+id/textView2"></TextView>
