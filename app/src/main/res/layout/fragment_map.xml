@@ -20,4 +20,5 @@
     <include
         android:id="@+id/markerInfoBottomSheet"
         layout="@layout/bottom_sheet_dialog" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

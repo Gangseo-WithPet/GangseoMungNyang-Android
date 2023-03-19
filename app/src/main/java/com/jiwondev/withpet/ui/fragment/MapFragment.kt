@@ -36,9 +36,6 @@ import kotlinx.coroutines.launch
 
 class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate), OnMapReadyCallback {
     lateinit var mapViewModel: MapViewModel
-    lateinit var mapFragment: MapFragment
-    var currentLat = 0.0
-    var currentLot = 0.0
     private lateinit var storeInfoBehavior: BottomSheetBehavior<ConstraintLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +68,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
                                 captionColor = Color.parseColor("#FFBA00")
                                 onClickListener = OnClickListener {
                                     storeInfoBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                                    // showMarkerInfoBottomSheetDialog(mapInfo)
+                                    showMarkerInfoBottomSheetDialog(mapInfo)
                                     true
                                 }
                             }
@@ -110,19 +107,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
             MapViewModelFactory(MapRepository(MapDatasource()))
         )[MapViewModel::class.java]
 
-        val childFragment = childFragmentManager.findFragmentById(R.id.naverMap)
-        mapFragment = childFragment as MapFragment
-
-//        val fm = childFragmentManager
-//        mapFragment = fm.findFragmentById(R.id.naverMap) as MapFragment?
-//            ?: MapFragment.newInstance().also {
-//                fm.beginTransaction().add(R.id.naverMap, it).commit() }
+        val fm = childFragmentManager
+        val mapFragment = fm.findFragmentById(R.id.naverMap) as MapFragment?
+            ?: MapFragment.newInstance().also {
+                fm.beginTransaction().add(R.id.naverMap, it).commit()
+            }
         mapFragment.getMapAsync(this)
 
         storeInfoBehavior = BottomSheetBehavior.from(binding.markerInfoBottomSheet.markerBottomSheetConstraint)
-            .apply {
-                isHideable = false
-            }
+        storeInfoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
 
