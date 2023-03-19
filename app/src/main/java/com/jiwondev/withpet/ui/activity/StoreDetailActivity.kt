@@ -16,7 +16,6 @@ class StoreDetailActivity : BaseActivity<ActivityStoreDetailBinding>({ ActivityS
             Toast.makeText(this@StoreDetailActivity, "상세 데이터가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
             finish()
         }
-
     }
 
     private fun getSerializableData(): MapDtoItem? {

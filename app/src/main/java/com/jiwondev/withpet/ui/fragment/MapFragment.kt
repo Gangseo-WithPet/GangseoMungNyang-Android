@@ -3,6 +3,7 @@ package com.jiwondev.withpet.ui.fragment
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.search.SearchView.Behavior
 import com.jiwondev.withpet.R
 import com.jiwondev.withpet.data.datasourece.MapDatasource
 import com.jiwondev.withpet.data.repository.MapRepository
@@ -24,10 +26,9 @@ import com.jiwondev.withpet.ui.activity.StoreDetailActivity
 import com.jiwondev.withpet.ui.viewmodel.MapViewModel
 import com.jiwondev.withpet.ui.viewmodel.MapViewModelFactory
 import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.NaverMap
-import com.naver.maps.map.OnMapReadyCallback
-import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.*
 import com.naver.maps.map.MapFragment
+import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay.OnClickListener
 import com.naver.maps.map.util.MarkerIcons
 import kotlinx.coroutines.flow.collectLatest
@@ -36,7 +37,9 @@ import kotlinx.coroutines.launch
 class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate), OnMapReadyCallback {
     lateinit var mapViewModel: MapViewModel
     lateinit var mapFragment: MapFragment
-    private lateinit var behaviorWeather: BottomSheetBehavior<ConstraintLayout>
+    var currentLat = 0.0
+    var currentLot = 0.0
+    private lateinit var storeInfoBehavior: BottomSheetBehavior<ConstraintLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +51,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         init()
     }
 
@@ -68,8 +70,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
                                 captionText = mapInfo.storeName
                                 captionColor = Color.parseColor("#FFBA00")
                                 onClickListener = OnClickListener {
-                                    showMarkerInfoBottomSheetDialog(mapInfo)
-                                    false
+                                    storeInfoBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                                    // showMarkerInfoBottomSheetDialog(mapInfo)
+                                    true
                                 }
                             }
                         }
@@ -77,6 +80,27 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
                 }
             }
         }
+        naverMap.addOnCameraChangeListener { reason, _ ->
+            Log.d("BottomSheet : ", storeInfoBehavior.state.toString())
+        }
+//
+//        /** The bottom sheet is dragging. */
+//        public static final int STATE_DRAGGING = 1;
+//
+//        /** The bottom sheet is settling. */
+//        public static final int STATE_SETTLING = 2;
+//
+//        /** The bottom sheet is expanded. */
+//        public static final int STATE_EXPANDED = 3;
+//
+//        /** The bottom sheet is collapsed. */
+//        public static final int STATE_COLLAPSED = 4;
+//
+//        /** The bottom sheet is hidden. */
+//        public static final int STATE_HIDDEN = 5;
+//
+//        /** The bottom sheet is half-expanded (used when fitToContents is false). */
+//        public static final int STATE_HALF_EXPANDED = 6;
     }
 
     private fun init() {
@@ -86,17 +110,19 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
             MapViewModelFactory(MapRepository(MapDatasource()))
         )[MapViewModel::class.java]
 
-        val fm = childFragmentManager
-        mapFragment = fm.findFragmentById(R.id.naverMap) as MapFragment?
-            ?: MapFragment.newInstance().also {
-                fm.beginTransaction().add(R.id.naverMap, it).commit() }
+        val childFragment = childFragmentManager.findFragmentById(R.id.naverMap)
+        mapFragment = childFragment as MapFragment
+
+//        val fm = childFragmentManager
+//        mapFragment = fm.findFragmentById(R.id.naverMap) as MapFragment?
+//            ?: MapFragment.newInstance().also {
+//                fm.beginTransaction().add(R.id.naverMap, it).commit() }
         mapFragment.getMapAsync(this)
 
-        behaviorWeather = BottomSheetBehavior.from(
-            binding.markerInfoBottomSheet.markerBottomSheetConstraint
-        ).apply {
-            state = BottomSheetBehavior.STATE_HIDDEN
-        }
+        storeInfoBehavior = BottomSheetBehavior.from(binding.markerInfoBottomSheet.markerBottomSheetConstraint)
+            .apply {
+                isHideable = false
+            }
     }
 
 
@@ -105,13 +131,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
             storeNameTextView.text = "${mapInfo.storeName} - ${mapInfo.typeDetail}"
             loadAddressTextView.text = mapInfo.loadAddress
             dayOffTextView.text = mapInfo.dayOff
-            bottomSheetCloseImageView.setOnClickListener { behaviorWeather.state = BottomSheetBehavior.STATE_HIDDEN }
+            bottomSheetCloseImageView.setOnClickListener { storeInfoBehavior.state = BottomSheetBehavior.STATE_HIDDEN }
             markerBottomSheetConstraint.setOnClickListener {
                 val intent = Intent(requireContext(), StoreDetailActivity::class.java)
                 intent.putExtra("data", mapInfo)
                 requireActivity().startActivity(intent)
             }
         }
-        behaviorWeather.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 }
