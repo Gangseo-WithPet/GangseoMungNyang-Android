@@ -8,6 +8,8 @@
     tools:context=".ui.fragment.MapFragment">
 
     <androidx.fragment.app.FragmentContainerView
+        app:navermap_latitude="37.550901"
+        app:navermap_longitude="126.849491"
         android:id="@+id/naverMap"
         android:name="com.naver.maps.map.MapFragment"
         android:layout_width="match_parent"
