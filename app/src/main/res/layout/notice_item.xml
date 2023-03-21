@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="115dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/bg_radius_16dp_notice_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_left_radius_16dp_notice_item"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></View>
+
+
+        <TextView
+            android:id="@+id/noticeTitleTextView"
+            style="@style/TitleStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="취약계층 반려동물을 위한 필수 동물의료 지원사업 알림(우리동네 동물병원)"
+            app:layout_constraintBottom_toTopOf="@+id/noticeContentTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"></TextView>
+
+        <TextView
+            android:id="@+id/noticeContentTextView"
+            style="@style/ContentStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="강서구에서는 23년 3월부터 취약계층 반려동물의 필수 동물의료 지원을 위해 「취약계층 반려동물을 위한 필수 동물의료 지원사업」을 다음과 같이 시행하기에 안내드립니다."
+            app:layout_constraintBottom_toTopOf="@+id/noticeRegisterDayTextView"
+            app:layout_constraintEnd_toEndOf="@+id/noticeTitleTextView"
+            app:layout_constraintStart_toStartOf="@+id/noticeTitleTextView"
+            app:layout_constraintTop_toBottomOf="@+id/noticeTitleTextView"></TextView>
+
+        <TextView
+            android:id="@+id/noticeRegisterDayTextView"
+            style="@style/ContentStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="2020-12-12"
+            android:textColor="#BDBDBD"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/noticeContentTextView"
+            app:layout_constraintTop_toBottomOf="@+id/noticeContentTextView"></TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

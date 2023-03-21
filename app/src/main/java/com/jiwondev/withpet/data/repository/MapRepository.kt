@@ -12,5 +12,4 @@ class MapRepository(private val datasource: MapDatasource) {
     val mapResult = datasource.getMapResponse().map {
         it.getValue(object : GenericTypeIndicator<ArrayList<MapDtoItem>>() {})
     }
-
 }

@@ -16,9 +16,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph"
-        tools:layout="@layout/fragment_map"></androidx.fragment.app.FragmentContainerView>
+        tools:layout="@layout/fragment_map">
+    </androidx.fragment.app.FragmentContainerView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        app:labelVisibilityMode="labeled"
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         app:menu="@menu/menu"
