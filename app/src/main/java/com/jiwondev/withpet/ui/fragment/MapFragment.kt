@@ -2,6 +2,7 @@ package com.jiwondev.withpet.ui.fragment
 
 import android.content.Intent
 import android.graphics.Color
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -36,6 +37,7 @@ import kotlinx.coroutines.launch
 
 class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate), OnMapReadyCallback {
     lateinit var mapViewModel: MapViewModel
+
     private lateinit var storeInfoBehavior: BottomSheetBehavior<ConstraintLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,10 +100,32 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
 //
 //        /** The bottom sheet is half-expanded (used when fitToContents is false). */
 //        public static final int STATE_HALF_EXPANDED = 6;
+
+        naverMap.setOnMapClickListener { pointF, latLng ->
+            if(mapViewModel.isEditMode) {
+                mapViewModel.userMarker.map = null
+
+                mapViewModel.userMarker = Marker().apply {
+                    position = LatLng(latLng.latitude, latLng.longitude)
+                    iconTintColor = Color.parseColor("#11297F")
+                    width = 80
+                    height = 130
+                    icon = MarkerIcons.BLACK
+                    map = naverMap
+                    onClickListener = OnClickListener {
+                        storeInfoBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                        val intent = Intent(requireContext(), StoreDetailActivity::class.java)
+                        requireActivity().startActivity(intent)
+                        true
+                    }
+                }
+            }
+        }
     }
 
     private fun init() {
         // TODO : 현재위치  파악.
+
         mapViewModel = ViewModelProvider(
             this,
             MapViewModelFactory(MapRepository(MapDatasource()))
@@ -116,8 +140,23 @@ class MapFragment : BaseFragment<FragmentMapBinding>(FragmentMapBinding::inflate
 
         storeInfoBehavior = BottomSheetBehavior.from(binding.markerInfoBottomSheet.markerBottomSheetConstraint)
         storeInfoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+        binding.addMarkerImageView.setOnClickListener { addMarkerMode() }
+        binding.addMarkerTextView.setOnClickListener { addMarkerResult() }
     }
 
+    private fun addMarkerMode() {
+        mapViewModel.isEditMode = true
+        binding.addMarkerImageView.visibility = View.GONE
+        binding.addMarkerTextView.visibility = View.VISIBLE
+    }
+
+    private fun addMarkerResult() {
+        mapViewModel.isEditMode = false
+        mapViewModel.userMarker = Marker()
+        binding.addMarkerImageView.visibility = View.VISIBLE
+        binding.addMarkerTextView.visibility = View.GONE
+    }
 
     private fun showMarkerInfoBottomSheetDialog(mapInfo: MapDtoItem) {
         binding.markerInfoBottomSheet.apply {
