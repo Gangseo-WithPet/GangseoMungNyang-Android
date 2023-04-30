@@ -36,7 +36,7 @@ minSdk 23
 `UI`
 
 - ConstraintLayout
-- BotoonSheet
+- BottomSheet
 
 `Third Party`
 
